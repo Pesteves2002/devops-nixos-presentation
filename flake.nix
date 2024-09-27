@@ -12,7 +12,7 @@
     in
     {
       devShell = pkgs.mkShell {
-        buildInputs = with pkgs; [ typst pdfpc polylux2pdfpc ];
+        buildInputs = with pkgs; [ typst typstfmt pdfpc polylux2pdfpc ];
      };
     });
 }
