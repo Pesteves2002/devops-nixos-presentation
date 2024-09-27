@@ -2,10 +2,10 @@
 #import themes.clean: *
 
 #set document(
-  title: [DevOps Demo: Declarative and Reproducible Deployments with NixOS],
-  author: ("Diogo Correia", "Tomás Esteves"),
-  keywords: ("nixos", "demo", "devops"),
-  date: datetime(year: 2024, month: 9, day: 25, hour: 13, minute: 00, second: 00)
+  title: [DevOps Presentation: NixOS: Reproducibility with Flakes and Secrets],
+  author: ("Tomás Esteves", "Wenqi Cao"),
+  keywords: ("nixos", "presentation", "devops"),
+  date: datetime(year: 2024, month: 10, day: 2, hour: 13, minute: 00, second: 00)
 )
 
 // compile .pdfpc wth `polylux2pdfpc {fname}.typ`
@@ -16,7 +16,7 @@
 
 #let kthblue = rgb("#000060")
 #show: clean-theme.with(
-  short-title: [*Demo: Declarative and Reproducible Deployments with NixOS*],
+  short-title: [*Presentation: NixOS: Reproducibility with Flakes and Secrets*],
   color: kthblue,
   logo: image("common/KTH_logo_RGB_bla.svg"),
 )
@@ -40,15 +40,15 @@
 }
 
 #let cover = title-slide(
-  title: text(25pt)[Declarative and Reproducible Deployments with NixOS],
+  title: text(25pt)[NixOS: Reproducibility with Flakes and Secrets],
   subtitle: [
     DD2482 Automated Software Testing and DevOps
 
-    *Demo*
+    *Presentation*
 
     #smallcaps[KTH Royal Institute of Technology]
 
-    Wednesday, 25#super[th] of September, 2024
+    Wednesday, 2#super[nd] of October, 2024
 
     #notes(
       speaker: "Diogo",
@@ -57,8 +57,8 @@
     )
   ],
   authors: (
-    [Diogo Correia\ #link("mailto:diogotc@kth.se")],
     [Tomás Esteves\ #link("mailto:tmbpe@kth.se")],
+    [Wenqi Cao\ #link("mailto:wenqic@kth.se")],
   ),
 )
 
@@ -104,9 +104,7 @@
   )
 ]
 
-#slide(title: "Demo Outline")[
-  - *disko*#super[3rd party], declare disk partitions
-  - *nixos-anywhere*#super[3rd party], deploy new host
+#slide(title: "Is it truly Reproducible?")[
   - *nixos-rebuild*, update existing host
 
   #notes(
