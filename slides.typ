@@ -99,49 +99,58 @@
   Nix Flakes
 ]
 
-#slide(
-title: "What is Nix Flakes?",
-)[
+#slide(title: "What is Nix Flakes?")[
   #side-by-side[
     - Experimental feature of the *Nix* package manager
     - Provides a way to *pin* the version of dependencies
   ][
-    #align(center, image("assets/nix-snowflake-colours.svg", height: 70%))
   ]
 ]
 
-#slide(
-title: "Structure of a Flake"
-)[
-#side-by-side[
-    #align(center, image("assets/nix-snowflake-colours.svg", height: 70%))
+#slide(title: "Structure of a Flake")[
+  #side-by-side[
+    #align(center, image("assets/flake-init.png", height: 70%))
     - flake.nix
-][
-    #align(center, image("assets/nix-snowflake-colours.svg", height: 70%))
+  ][
+    #align(center, image("assets/flake-lock.png", height: 70%))
     - flake.lock
+  ]
+]
+
+#slide(title: "Build and Run Programs")[
+#side-by-side(columns: (1fr, 2fr))[
+- Run `nix build .#<name>`
+- Run `nix run .#<name>`
+][
+    #align(center, image("assets/flake-build.png", height: 60%))
 ]
 ]
 
-#slide(
-title: "How to Use"
-)[
-  - Run `nix shell`
-  - ...
+#slide(title: "Create Dev Shells")[
+#side-by-side(columns: (1fr, 2fr))[
+- Run `nix develop`
+][
+  #align(center, image("assets/flake-dev.png", height: 80%))
+]
+]
+
+#slide(title: "Declare NixOS config")[
+#side-by-side(columns: (1fr, 2fr))[
+- Run `nixos-rebuild switch --flake .#hostname`
+][
+  #align(center, image("assets/flake-config.png", height: 85%))
+]
 ]
 
 #big-picture-slide()[
   Agenix
 ]
 
-#slide(
-  title: "What is Agenix?",
-)[
+#slide(title: "What is Agenix?")[
 
 ]
 
-#slide(
-  title: "How to Use",
-)[
+#slide(title: "How to Use")[
 
 ]
 
