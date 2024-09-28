@@ -107,6 +107,14 @@
   ]
 ]
 
+#slide(title: "Why use Nix Flakes?")[
+  #side-by-side[
+    - A deployment made today may not work tomorrow
+    - Dependencies may change
+  ][
+  ]
+]
+
 #slide(title: "Structure of a Flake")[
   #side-by-side[
     #align(center, image("assets/flake-init.png", height: 70%))
@@ -122,7 +130,7 @@
 - Run `nix build .#<name>`
 - Run `nix run .#<name>`
 ][
-    #align(center, image("assets/flake-build.png", height: 60%))
+  #align(center, image("assets/flake-build.png", height: 60%))
 ]
 ]
 
@@ -147,11 +155,24 @@
 ]
 
 #slide(title: "What is Agenix?")[
-
+  - Tool that manages secrets in a Nix configuration
+  - Encrypts using ssh keys
 ]
 
-#slide(title: "How to Use")[
+#slide(title: "Why use Agenix?")[
+  - Leak secrets in public repositories
+  - The Nix store is readable by all process and users
+]
 
+#slide(title: "How does it work?")[
+  - Public Key Encryption
+  - Only the owner of the private key can decrypt the secret
+]
+
+#slide(title: "Add a Secret")[
+- Run `agenix -e <secret>.age`
+- Add which users and systems can access the secret
+- Use the reference in the Nix configuration
 ]
 
 #new-section-slide("Conclusion")
