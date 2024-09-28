@@ -85,20 +85,64 @@
 #slide(
   title: "Is it Truly Reproducible?",
 )[
-  - *nixos-rebuild*, update existing host
+  - *flake*, pin dependencies in a lock file
+  - *agenix*, manage secrets securely
 
   #notes(
     speaker: "Tomás", "declare disk partitions with disko", "provision a new host with nixos-anywhere", "update the host with nixos-rebuild",
   )
 ]
 
-#slide(title: "Nix Flakes")[
-]
-
-#slide(title: "Manage Secrets")[]
+#new-section-slide("Tools")
 
 #big-picture-slide()[
-  Demo
+  Nix Flakes
+]
+
+#slide(
+title: "What is Nix Flakes?",
+)[
+  #side-by-side[
+    - Experimental feature of the *Nix* package manager
+    - Provides a way to *pin* the version of dependencies
+  ][
+    #align(center, image("assets/nix-snowflake-colours.svg", height: 70%))
+  ]
+]
+
+#slide(
+title: "Structure of a Flake"
+)[
+#side-by-side[
+    #align(center, image("assets/nix-snowflake-colours.svg", height: 70%))
+    - flake.nix
+][
+    #align(center, image("assets/nix-snowflake-colours.svg", height: 70%))
+    - flake.lock
+]
+]
+
+#slide(
+title: "How to Use"
+)[
+  - Run `nix shell`
+  - ...
+]
+
+#big-picture-slide()[
+  Agenix
+]
+
+#slide(
+  title: "What is Agenix?",
+)[
+
+]
+
+#slide(
+  title: "How to Use",
+)[
+
 ]
 
 #new-section-slide("Conclusion")
