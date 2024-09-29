@@ -74,7 +74,7 @@
 )[
   #v(1em)
   #grid(
-    columns: (1fr, 1fr, 1fr), gutter: 1em, align: center + bottom, image("assets/reproducible.svg", height: 50%), image("assets/declarative.svg", height: 50%), image("assets/reliable.svg", height: 50%), [*Reproducible*], [*Declarative*], [*Reliable*],
+    columns: (1fr, 1fr, 1fr), gutter: 1em, align: center + bottom, image("assets/reproducible.svg", height: 50%), image("assets/declarative.svg", height: 50%), image("assets/reliable.svg", height: 50%), [*Reproducible\**], [*Declarative*], [*Reliable*],
   )
 
   #notes(
@@ -82,18 +82,8 @@
   )
 ]
 
-#slide(
-  title: "Is it Truly Reproducible?",
-)[
-  - *flake*, pin dependencies in a lock file
-  - *agenix*, manage secrets securely
 
-  #notes(
-    speaker: "Tomás", "declare disk partitions with disko", "provision a new host with nixos-anywhere", "update the host with nixos-rebuild",
-  )
-]
-
-#new-section-slide("Tools")
+#new-section-slide("A Path to Reproducibility")
 
 #big-picture-slide()[
   Nix Flakes
@@ -103,14 +93,6 @@
   #side-by-side[
     - Experimental feature of the *Nix* package manager
     - Provides a way to *pin* the version of dependencies
-  ][
-  ]
-]
-
-#slide(title: "Why use Nix Flakes?")[
-  #side-by-side[
-    - A deployment made today may not work tomorrow
-    - Dependencies may change
   ][
   ]
 ]
@@ -165,13 +147,13 @@
 ]
 
 #slide(title: "How does it work?")[
-  - Public Key Encryption
+  - Public Key Cryptography
   - Only the owner of the private key can decrypt the secret
 ]
 
 #slide(title: "Add a Secret")[
-- Run `agenix -e <secret>.age`
 - Add which users and systems can access the secret
+- Run `agenix -e <secret>.age`
 - Use the reference in the Nix configuration
 ]
 
