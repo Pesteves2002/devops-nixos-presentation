@@ -82,7 +82,6 @@
   )
 ]
 
-
 #new-section-slide("A Path to Reproducibility")
 
 #big-picture-slide()[
@@ -97,38 +96,152 @@
   ]
 ]
 
-#slide(title: "Structure of a Flake")[
-  #side-by-side[
-    #align(center, image("assets/flake-init.png", height: 70%))
-    - flake.nix
-  ][
-    #align(center, image("assets/flake-lock.png", height: 70%))
-    - flake.lock
-  ]
+#slide(
+  title: "Structure of a Flake",
+)[
+#side-by-side[
+#text(
+  12pt,
+)[
+```nix
+{
+  description = "A very basic flake";
+
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+  };
+
+  outputs = { self, nixpkgs }: {
+
+    packages.x86_64-linux.hello = nixpkgs.legacyPackages.x86_64-linux.hello;
+
+    packages.x86_64-linux.default = self.packages.x86_64-linux.hello;
+
+  };
+}
+```
+]
+- flake.nix
+][
+#text(
+  7pt,
+)[
+```nix
+{
+  "nodes": {
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1727348695,
+        "narHash": "sha256-J+PeFKSDV+pHL7ukkfpVzCOO7mBSrrpJ3svwBFABbhI=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "1925c603f17fc89f4c8f6bf6f631a802ad85d784",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "nixpkgs": "nixpkgs"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
+    ```
+]
+- flake.lock
+]
 ]
 
 #slide(title: "Build and Run Programs")[
-#side-by-side(columns: (1fr, 2fr))[
+#side-by-side(columns: (1fr, 1.5fr))[
 - Run `nix build .#<name>`
 - Run `nix run .#<name>`
 ][
-  #align(center, image("assets/flake-build.png", height: 60%))
+#text(12pt)[
+```nix
+{
+  description = "A flake for building Hello World";
+
+  inputs.nixpkgs.url = github:NixOS/nixpkgs/nixos-20.03;
+
+  outputs = { self, nixpkgs }: {
+
+    defaultPackage.x86_64-linux =
+      # Notice the reference to nixpkgs here.
+      with import nixpkgs { system = "x86_64-linux"; };
+      stdenv.mkDerivation {
+        name = "hello";
+        src = self;
+        buildPhase = "gcc -o hello ./hello.c";
+        installPhase = "mkdir -p $out/bin; install -t $out/bin hello";
+      };
+
+  };
+}
+```
+]
 ]
 ]
 
 #slide(title: "Create Dev Shells")[
-#side-by-side(columns: (1fr, 2fr))[
+#side-by-side(columns: (1fr, 1.5fr))[
 - Run `nix develop`
 ][
-  #align(center, image("assets/flake-dev.png", height: 80%))
+#set text(12pt)
+```nix
+{
+  description = "Flake for the dev ops presentation";
+
+  inputs = {
+    nixpkgs.url = "nixpkgs/nixos-24.05";
+    utils.url = "github:numtide/flake-utils";
+  };
+
+  outputs = inputs: inputs.utils.lib.eachDefaultSystem (system:
+    let
+      pkgs = import inputs.nixpkgs { inherit system; };
+    in
+    {
+      devShell = pkgs.mkShell {
+        buildInputs = with pkgs; [ typst typstfmt pdfpc polylux2pdfpc ];
+      };
+    }
+  );
+}
+```
 ]
 ]
 
 #slide(title: "Declare NixOS config")[
-#side-by-side(columns: (1fr, 2fr))[
+#side-by-side(columns: (1fr, 1.5fr))[
 - Run `nixos-rebuild switch --flake .#hostname`
 ][
-  #align(center, image("assets/flake-config.png", height: 85%))
+#set text(12pt)
+```nix
+  {
+    description = "Flake for deploying spoon machine";
+    inputs = {
+      nixpkgs.url = "nixpkgs/nixos-24.05";
+      utils.url = "github:numtide/flake-utils";
+    };
+    outputs = { self, nixpkgs, utils }: {
+      nixosConfigurations.spoon = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./configuration.nix
+        ];
+      };
+    };
+  }
+  ```
 ]
 ]
 
