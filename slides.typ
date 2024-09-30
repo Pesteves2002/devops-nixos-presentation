@@ -124,7 +124,7 @@
 - flake.nix
 ][
 #text(
-  7pt,
+  12pt,
 )[
 ```nix
 {
@@ -138,22 +138,12 @@
         "rev": "1925c603f17fc89f4c8f6bf6f631a802ad85d784",
         "type": "github"
       },
-      "original": {
-        "owner": "nixos",
-        "ref": "nixos-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
     },
-    "root": {
-      "inputs": {
-        "nixpkgs": "nixpkgs"
-      }
-    }
   },
-  "root": "root",
-  "version": 7
 }
+
+
+
     ```
 ]
 - flake.lock
@@ -175,7 +165,6 @@
   outputs = { self, nixpkgs }: {
 
     defaultPackage.x86_64-linux =
-      # Notice the reference to nixpkgs here.
       with import nixpkgs { system = "x86_64-linux"; };
       stdenv.mkDerivation {
         name = "hello";
@@ -183,7 +172,6 @@
         buildPhase = "gcc -o hello ./hello.c";
         installPhase = "mkdir -p $out/bin; install -t $out/bin hello";
       };
-
   };
 }
 ```
@@ -250,8 +238,12 @@
 ]
 
 #slide(title: "What is Agenix?")[
-  - Tool that manages secrets in a Nix configuration
-  - Encrypts using ssh keys
+  #side-by-side(columns: (1fr, 1.5fr))[
+    - Tool that manages secrets in a Nix configuration
+    - Encrypts using ssh keys
+  ][
+    #align(center, image("assets/lock.svg", height: 70%))
+  ]
 ]
 
 #slide(title: "Why use Agenix?")[
