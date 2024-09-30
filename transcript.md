@@ -123,9 +123,53 @@ It encrypts secrets with a public key and decrypts them with a private key.
 
 But why do we need `agenix`?
 
+All files in the Nix store are readable by any system user, so it is a security risk to have cleartext secrets.
+
 It's very common to have secrets in our configuration and leaking them is a big security issue.
 
-TODO: Contiunue
+Agenix solves this problem by encrypting the secrets.
+
+# Slide 15
+
+How does it work?
+
+`agenix` uses Public Key Cryptography.
+
+In public key cryptography, there are two keys: a public key and a private key.
+
+The public key can be shared with anyone, but the private key must be kept secret.
+
+In this case, the secrets are encrypted with the public key and only the private key can decrypt them.
+
+So only the people that have the private key can decrypt the secrets.
+
+`age` is used to encrypt/decrypt the secrets.
+
+# Slide 16
+
+So how do I use `agenix`?
+
+You first start by telling which users and systems public keys will be used.
+
+Then you define the file name and which public keys are used.
+
+Then you run `agenix -e <secret>.age`, here you will write the secret (password, API key).
+
+It will then be encrypted.
+
+# Slide 17
+
+In order to use the secret, you first need tell where is it.
+
+And then reference it in your configuration.
+
+If properly configured, the secret will be decrypted and used securely only by the `nextcloud` service.
+
+# Slide 19
+
+With Flakes and Agenix, Your Configuration will be Reproducible and Secure *Forever*
+
+
 
 
 

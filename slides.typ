@@ -13,7 +13,7 @@
 
 #let kthblue = rgb("#000060")
 #show: clean-theme.with(
-  short-title: [*Presentation: NixOS: Reproducibility with Flakes and Secrets*], color: kthblue, logo: image("common/KTH_logo_RGB_bla.svg"),
+  short-title: [*NixOS: Reproducibility with Flakes and Secrets*], color: kthblue, logo: image("common/KTH_logo_RGB_bla.svg"),
 )
 
 #pdfpc.config(duration-minutes: 7)
@@ -264,17 +264,60 @@
   - Only the owner of the private key can decrypt the secret
 ]
 
-#slide(title: "Add a Secret")[
+#slide(
+  title: "Add a Secret",
+)[
+#side-by-side(
+  columns: (1fr, 1.5fr),
+)[
 - Add which users and systems can access the secret
 - Run `agenix -e <secret>.age`
-- Use the reference in the Nix configuration
+][
+#set text(14pt)
+```nix
+let
+  user1 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL0idNvgGiucWgup/mP78zyC23uFjYq0evcWdjGQUaBH";
+  users = [ user1 ];
+
+  system1 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPJDyIr/FSz1cJdcoW69R+NrWzwGK/+3gJpqD1t8L2zE";
+  systems = [ system1 ];
+in
+{
+  "secret1.age".publicKeys = [ user1 system1 ];
+}
+
+```
+]
+]
+
+#slide(title: "Use a Secret")[
+#side-by-side(columns: (1fr, 1.5fr))[
+  - Set the secret in the Nix configuration
+  - Reference the secret in the service
+][
+#set text(15pt)
+```nix
+age.secrets.nextcloud = {
+  file = ./secrets/secret1.age;
+  owner = "nextcloud";
+  group = "nextcloud";
+};
+services.nextcloud = {
+  enable = true;
+  package = pkgs.nextcloud28;
+  hostName = "localhost";
+  config.adminpassFile = config.age.secrets.nextcloud.path;
+};
+```
+]
 ]
 
 #new-section-slide("Conclusion")
 
 #big-picture-slide(
   )[
-  With NixOS, you can declare your infrastructure once and deploy it forever
+  With Flakes and Agenix, Your Configuration will be Reproducible and Secure
+  *Forever*
   #notes(speaker: "Diogo", "Declare once, deploy forever, wherever")
 ]
 
