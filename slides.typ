@@ -277,6 +277,9 @@
   ][
     #align(center, image("assets/lock_broken.png", height: 70%))
   ]
+  #notes(
+    speaker: "Wenqi", "security risk, have clear text secrets; big security issue; solve, encrypting the secrets",
+  )
 ]
 
 #slide(title: "What is Agenix?")[
@@ -286,6 +289,9 @@
   ][
     #align(center, image("assets/lock.svg", height: 70%))
   ]
+  #notes(
+    speaker: "Wenqi", "In order to manage, Agenix; public key & private key",
+  )
 ]
 
 #slide(
@@ -297,6 +303,9 @@
   ][
     #align(center, image("assets/Asymmetric_encryption_colored.png", height: 70%))
   ]
+  #notes(
+  speaker: "Wenqi", "public key, shared with anyone; 'age', to encrypt/decrypt secrets",
+  )
 ]
 
 #slide(
@@ -323,6 +332,9 @@ in
 
 ```
 ]
+#notes(
+  speaker: "Wenqi", "define filename & which public keys are used; write the secret (password, API key)",
+)
 ]
 
 #slide(title: "Use a Secret")[
@@ -345,6 +357,9 @@ services.nextcloud = {
 };
 ```
 ]
+#notes(
+  speaker: "Wenqi", "first, tell where is it; reference it in configuration; if proper, decrypted & used securely, e.g., only by 'nextcloud' service",
+)
 ]
 
 #slide(
@@ -357,6 +372,9 @@ services.nextcloud = {
   ][
     #align(center, image("assets/Secrets_management_icon.png", height: 70%))
   ]
+  #notes(
+    speaker: "Wenqi", "Finally, performs well, scaling effectively; offers less flexibility because; Nonetheless, it's still a ...",
+  )
 ]
 
 #new-section-slide("Conclusion")

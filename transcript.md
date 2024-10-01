@@ -160,7 +160,17 @@ And then reference it in your configuration.
 
 If properly configured, the secret will be decrypted and used securely only by the `nextcloud` service.
 
-# Slide 19
+# Slide 18
+
+Finally, let's take a moment to reflect on the production use.
+
+Agenix performs well in large NixOS deployments, scaling effectively to meet demands.
+
+However, it offers less flexibility with encryption because it doesn't support PGP keys or cloud-based KMS (Key Management Services) like sops-nix.
+
+Nonetheless, it's a lightweight solution that's ideal for simpler, focused applications.
+
+# Slide 20
 
 With Flakes and Agenix, Your Configuration will be Reproducible and Secure *Forever*
 
