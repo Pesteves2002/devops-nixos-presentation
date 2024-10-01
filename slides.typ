@@ -24,10 +24,7 @@
 #show link: it => underline(stroke: 1pt + kthblue, text(fill: kthblue, it))
 
 #let cmd = it => block(
-  fill: rgb("#1d2433"),
-  inset: 7pt,
-  radius: 5pt,
-  text(fill: rgb("#a2aabc"), size: 12pt, it)
+  fill: rgb("#1d2433"), inset: 7pt, radius: 5pt, text(fill: rgb("#a2aabc"), size: 12pt, it),
 )
 
 #let big-picture-slide(content) = {
@@ -49,13 +46,23 @@
 
     Wednesday, 2#super[nd] of October, 2024
 
-    #notes(speaker: "Diogo", "introduce topic", "introduce presenters")
+    #notes(speaker: "Tomás", "introduce topic", "introduce presenters")
   ], authors: (
     [Tomás Esteves\ #link("mailto:tmbpe@kth.se")], [Wenqi Cao\ #link("mailto:wenqic@kth.se")],
   ),
 )
 
 #cover
+
+#slide(title: "Overview")[
+  - Introduction to Nix/NixOS
+    - What is Nix/NixOS?
+    - Why Nix/NixOS?
+  - A Path to Reproducibility
+    - Nix Flakes (Dependency Management)
+    - Agenix (Secret Management)
+  - Conclusion
+]
 
 #new-section-slide("Introduction")
 
@@ -71,7 +78,7 @@
     #align(center, image("assets/nix-snowflake-colours.svg", height: 70%))
   ]
 
-  #notes(speaker: "Diogo", "nixlang/nix/nixos/nixpkgs")
+  #notes(speaker: "Tomás", "nixlang/nix/nixos/nixpkgs")
 ]
 
 #slide(
@@ -83,7 +90,7 @@
   )
 
   #notes(
-    speaker: "Tomás", "Reproducible: works on my machine, works on every machine", "Declarative: infrastructure as code, allows you to copy code from stackoverflow and it will work", "Reliable: if something goes bad, you can always rollback and avoid being fired",
+    speaker: "Tomás", "Reproducible: works on my machine, works on every machine", "Declarative: infrastructure as code, allows you to copy code from stackoverflow and it will work", "Reliable: if something goes bad, you can always rollback and avoid being fired, but why is there an asterisk? well because that is not always true",
   )
 ]
 
@@ -100,6 +107,8 @@
   ][
     #align(center, image("assets/dependency-hell.jpg", height: 70%))
   ]
+
+  #notes(speaker: "Tomás", "pin versions of the dependecies")
 ]
 
 #slide(
@@ -154,9 +163,14 @@
 ]
 - flake.lock
 ]
+#notes(
+  speaker: "Tomás", "description, inputs (dependencies), and outputs (what is done), flake lock explain git version  and narHash (integrity)",
+)
 ]
 
-#slide(title: "Build and Run Programs")[
+#slide(
+  title: "Build and Run Programs",
+)[
 #side-by-side(columns: (1fr, 1.5fr))[
 - Run #cmd(`nix build .#<name>`)
 - Run #cmd(`nix run .#<name>`)
@@ -183,9 +197,14 @@
 ```
 ]
 ]
+#notes(
+  speaker: "Tomás", "build (derivation) and run programs with flake, in this case hello, is compiled and ran in result/bin/hello",
+)
 ]
 
-#slide(title: "Create Dev Shells")[
+#slide(
+  title: "Create Dev Shells",
+)[
 #side-by-side(columns: (1fr, 1.5fr))[
 - Run #cmd(`nix develop`)
 ][
@@ -212,9 +231,14 @@
 }
 ```
 ]
+#notes(
+  speaker: "Tomás", "create a development shell with the tools needed for the presentation, talk about python versions",
+)
 ]
 
-#slide(title: "Declare NixOS config")[
+#slide(
+  title: "Declare NixOS config",
+)[
 #side-by-side(columns: (1fr, 1.5fr))[
 - Run #cmd(`nixos-rebuild switch --flake .#hostname`)
 ][
@@ -236,6 +260,10 @@
   }
   ```
 ]
+
+#notes(
+  speaker: "Tomás", "deploy the configuration with nixos-rebuild switch --flake .#hostname",
+)
 ]
 
 #big-picture-slide()[
@@ -243,8 +271,12 @@
 ]
 
 #slide(title: "Why use Agenix?")[
-  - The Nix store is readable by all processes and users
-  - Leak secrets in public repositories
+  #side-by-side[
+    - The Nix store is readable by all processes and users
+    - Leak secrets in public repositories
+  ][
+    #align(center, image("assets/lock_broken.png", height: 70%))
+  ]
 ]
 
 #slide(title: "What is Agenix?")[
