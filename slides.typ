@@ -23,7 +23,12 @@
 
 #show link: it => underline(stroke: 1pt + kthblue, text(fill: kthblue, it))
 
-#let focus = it => text(kthblue, strong(it))
+#let cmd = it => block(
+  fill: rgb("#1d2433"),
+  inset: 7pt,
+  radius: 5pt,
+  text(fill: rgb("#a2aabc"), size: 12pt, it)
+)
 
 #let big-picture-slide(content) = {
   polylux-slide({
@@ -153,8 +158,8 @@
 
 #slide(title: "Build and Run Programs")[
 #side-by-side(columns: (1fr, 1.5fr))[
-- Run `nix build .#<name>`
-- Run `nix run .#<name>`
+- Run #cmd(`nix build .#<name>`)
+- Run #cmd(`nix run .#<name>`)
 ][
 #text(12pt)[
 ```nix
@@ -182,7 +187,7 @@
 
 #slide(title: "Create Dev Shells")[
 #side-by-side(columns: (1fr, 1.5fr))[
-- Run `nix develop`
+- Run #cmd(`nix develop`)
 ][
 #set text(12pt)
 ```nix
@@ -211,7 +216,7 @@
 
 #slide(title: "Declare NixOS config")[
 #side-by-side(columns: (1fr, 1.5fr))[
-- Run `nixos-rebuild switch --flake .#hostname`
+- Run #cmd(`nixos-rebuild switch --flake .#hostname`)
 ][
 #set text(12pt)
 ```nix
@@ -269,7 +274,7 @@
   columns: (1fr, 1.5fr),
 )[
 - Add which systems can access the secret
-- Run `agenix -e <secret>.age`
+- Run #cmd(`agenix -e <secret>.age`)
 ][
 #set text(14pt)
 ```nix
