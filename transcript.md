@@ -176,12 +176,4 @@ Agenix allows users to securely include encrypted secrets, (such as ages,) in ve
 
 With Flakes and Agenix, Your Configuration will be Reproducible and Secure *Forever*
 
-
-
-
-
-
-
-
-
-
+Thank your for listening & special thanks to the feedback from Diogo & Rafael.
