@@ -368,7 +368,7 @@ services.nextcloud = {
   #side-by-side[
     - Scales effectively in large NixOS deployments
     - Less flexible with encryption backends (vs. sops-nix) 
-    - Lightweight, Nix-native solution for simpler, focused use cases.
+    - Lightweight & simple, nix-native, and in version-control.
   ][
     #align(center, image("assets/Secrets_management_icon.png", height: 70%))
   ]

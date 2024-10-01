@@ -136,7 +136,7 @@ The public key can be shared with anyone, but the private key must be kept secre
 
 In this case, the secrets are encrypted with the public key and only the private key can decrypt them.
 
-So only the people that have the private key can decrypt the secrets.
+So only the *hosts* that have the private key can decrypt the secrets.
 
 `age` is used to encrypt/decrypt the secrets.
 
@@ -169,6 +169,8 @@ Agenix performs well in large NixOS deployments, scaling effectively to meet dem
 However, it offers less flexibility with encryption because it doesn't support PGP keys or cloud-based KMS (Key Management Services) like sops-nix.
 
 Nonetheless, it's a lightweight solution that's ideal for simpler, focused applications.
+
+Agenix allows users to securely include encrypted secrets, (such as ages,) in version control systems and push to public Git repositories without risking the exposure of confidential information.
 
 # Slide 20
 
