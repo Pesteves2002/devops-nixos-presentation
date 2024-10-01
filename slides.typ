@@ -88,11 +88,12 @@
   Nix Flakes
 ]
 
-#slide(title: "What is Nix Flakes?")[
+#slide(title: "What are Nix Flakes?")[
   #side-by-side[
     - Experimental feature of the *Nix* package manager
     - Provides a way to *pin* the version of dependencies
   ][
+    #align(center, image("assets/dependency-hell.jpg", height: 70%))
   ]
 ]
 
@@ -139,9 +140,9 @@
         "type": "github"
       },
     },
+    ...
   },
 }
-
 
 
     ```
@@ -216,11 +217,10 @@
 ```nix
   {
     description = "Flake for deploying spoon machine";
-    inputs = {
-      nixpkgs.url = "nixpkgs/nixos-24.05";
-      utils.url = "github:numtide/flake-utils";
-    };
-    outputs = { self, nixpkgs, utils }: {
+
+    inputs.nixpkgs.url = "nixpkgs/nixos-24.05";
+
+    outputs = { self, nixpkgs }: {
       nixosConfigurations.spoon = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
@@ -237,6 +237,11 @@
   Agenix
 ]
 
+#slide(title: "Why use Agenix?")[
+  - The Nix store is readable by all processes and users
+  - Leak secrets in public repositories
+]
+
 #slide(title: "What is Agenix?")[
   #side-by-side(columns: (1fr, 1.5fr))[
     - Tool that manages secrets in a Nix configuration
@@ -246,14 +251,15 @@
   ]
 ]
 
-#slide(title: "Why use Agenix?")[
-  - Leak secrets in public repositories
-  - The Nix store is readable by all process and users
-]
-
-#slide(title: "How does it work?")[
-  - Public Key Cryptography
-  - Only the owner of the private key can decrypt the secret
+#slide(
+  title: "How does it work?",
+)[
+  #side-by-side[
+    - Public Key Cryptography
+    - Only the owner of the private key can decrypt the secret
+  ][
+    #align(center, image("assets/Asymmetric_encryption_colored.png", height: 70%))
+  ]
 ]
 
 #slide(
@@ -262,20 +268,20 @@
 #side-by-side(
   columns: (1fr, 1.5fr),
 )[
-- Add which users and systems can access the secret
+- Add which systems can access the secret
 - Run `agenix -e <secret>.age`
 ][
 #set text(14pt)
 ```nix
 let
-  user1 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL0idNvgGiucWgup/mP78zyC23uFjYq0evcWdjGQUaBH";
-  users = [ user1 ];
+  system1 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL0idNvgGiucWgup/mP78zyC23uFjYq0evcWdjGQUaBH";
+  system2 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPJDyIr/FSz1cJdcoW69R+NrWzwGK/+3gJpqD1t8L2zE";
 
-  system1 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPJDyIr/FSz1cJdcoW69R+NrWzwGK/+3gJpqD1t8L2zE";
-  systems = [ system1 ];
+  systems = [ system1 system2 ];
 in
 {
-  "secret1.age".publicKeys = [ user1 system1 ];
+  "secret1.age".publicKeys = [ system1 ];
+  "secret2.age".publicKeys = systems;
 }
 
 ```
@@ -296,7 +302,7 @@ age.secrets.nextcloud = {
 };
 services.nextcloud = {
   enable = true;
-  package = pkgs.nextcloud28;
+  package = pkgs.nextcloud29;
   hostName = "localhost";
   config.adminpassFile = config.age.secrets.nextcloud.path;
 };

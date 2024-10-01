@@ -69,7 +69,9 @@ After evaluating the flake, a flake.lock is generated.
 
 The flake.lock works in the same way as a package-lock.json or a cargo.lock file.
 
-It contains all the information necessary to always get the same result.
+It contains all the information necessary to always get output the same result.
+
+Look and explain the rev and narHash.
 
 # Slide 9
 
@@ -91,11 +93,8 @@ Instead of installing packages that might be used only once, we can create a she
 
 This packages are only usable inside this new shell, and not globally.
 
-After not using the shell, we can remove it and all the packages that were installed will be removed through
-a garbage collector service that NixOS provides.
-
-In this case, since I'm doing the presentation only once, I don't need to have
-`typst`, `pdfpc` and the other packages installed globally.
+This is useful when multiple project have conflicting dependencies.
+Such as project that needs Python 3.6 and another that needs Python 3.8.
 
 In order to get this shell, I just need to run `nix develop`.
 
@@ -107,27 +106,23 @@ This makes our configuration reproducible today but also in 100 years.
 
 Here I can define multiple machines, such as my desktop and my laptop.
 
-# Slide 12
-
-How to update a flake?
-
 # Slide 13
 
 So this is flakes, but what about secrets?
 
-In order to manage secrets securely, we can use `agenix`.
-
-It encrypts secrets with a public key and decrypts them with a private key.
-
-# Slide 14
-
 But why do we need `agenix`?
 
-All files in the Nix store are readable by any system user, so it is a security risk to have cleartext secrets.
+All files in the Nix store are readable by any system user, so it is a security risk to have clear text secrets.
 
 It's very common to have secrets in our configuration and leaking them is a big security issue.
 
 Agenix solves this problem by encrypting the secrets.
+
+# Slide 14
+
+In order to manage secrets securely, we can use `agenix`.
+
+It encrypts secrets with a public key and decrypts them with a private key.
 
 # Slide 15
 
@@ -149,7 +144,7 @@ So only the people that have the private key can decrypt the secrets.
 
 So how do I use `agenix`?
 
-You first start by telling which users and systems public keys will be used.
+You first start by telling which systems public keys will be used.
 
 Then you define the file name and which public keys are used.
 
@@ -159,7 +154,7 @@ It will then be encrypted.
 
 # Slide 17
 
-In order to use the secret, you first need tell where is it.
+In order to use the secret, you first need to tell where is it.
 
 And then reference it in your configuration.
 
@@ -168,6 +163,7 @@ If properly configured, the secret will be decrypted and used securely only by t
 # Slide 19
 
 With Flakes and Agenix, Your Configuration will be Reproducible and Secure *Forever*
+
 
 
 
