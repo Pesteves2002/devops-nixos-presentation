@@ -315,6 +315,18 @@ services.nextcloud = {
 ]
 ]
 
+#slide(
+  title: "Reflection: Scaling and Flexibility in Secrets Management",
+)[
+  #side-by-side[
+    - Scales effectively in large NixOS deployments
+    - Less flexible with encryption backends (vs. sops-nix) 
+    - Lightweight, Nix-native solution for simpler, focused use cases.
+  ][
+    #align(center, image("assets/Secrets_management_icon.png", height: 70%))
+  ]
+]
+
 #new-section-slide("Conclusion")
 
 #big-picture-slide(
