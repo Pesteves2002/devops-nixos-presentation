@@ -24,7 +24,7 @@
 #show link: it => underline(stroke: 1pt + kthblue, text(fill: kthblue, it))
 
 #let cmd = it => block(
-  fill: rgb("#1d2433"), inset: 7pt, radius: 5pt, text(fill: rgb("#a2aabc"), size: 12pt, it),
+  fill: rgb("#1d2433"), inset: 7pt, radius: 5pt, text(fill: rgb("#a2aabc"), size: 15pt, it),
 )
 
 #let big-picture-slide(content) = {
@@ -62,6 +62,8 @@
     - Nix Flakes (Dependency Management)
     - Agenix (Secret Management)
   - Conclusion
+
+  #notes(speaker: "Tomás", "Introduction to Nix/Nixos", "How can We improve reproducibility?", "Conclusion")
 ]
 
 #new-section-slide("Introduction")
@@ -90,7 +92,7 @@
   )
 
   #notes(
-    speaker: "Tomás", "Reproducible: works on my machine, works on every machine", "Declarative: infrastructure as code, allows you to copy code from stackoverflow and it will work", "Reliable: if something goes bad, you can always rollback and avoid being fired, but why is there an asterisk? well because that is not always true",
+    speaker: "Tomás", "Reproducible: works on my machine, works on every machine", "Declarative: infrastructure as code, allows you to copy code from stackoverflow and it will work", "Reliable: if something goes bad, you can always rollback and avoid being fired", "but why is there an asterisk? well because that is not always true", "But NixOS does not provide dependecy pinning and secure management of secrets"
   )
 ]
 
@@ -108,7 +110,7 @@
     #align(center, image("assets/dependency-hell.jpg", height: 70%))
   ]
 
-  #notes(speaker: "Tomás", "pin versions of the dependecies")
+  #notes(speaker: "Tomás", "pin versions of the dependecies", "escape dependency hell")
 ]
 
 #slide(
@@ -116,7 +118,7 @@
 )[
 #side-by-side[
 #text(
-  12pt,
+  11pt,
 )[
 ```nix
 {
@@ -129,9 +131,11 @@
   outputs = { self, nixpkgs }: {
 
     packages.x86_64-linux.hello = nixpkgs.legacyPackages.x86_64-linux.hello;
-
     packages.x86_64-linux.default = self.packages.x86_64-linux.hello;
 
+    overlays.default = final: prev: { ... };
+
+    formatter.x86_64-linux = ...;
   };
 }
 ```
@@ -239,13 +243,13 @@
 #slide(
   title: "Declare NixOS config",
 )[
-#side-by-side(columns: (1fr, 1.5fr))[
+#side-by-side(columns: (1fr, 1.25fr))[
 - Run #cmd(`nixos-rebuild switch --flake .#hostname`)
 ][
 #set text(12pt)
 ```nix
   {
-    description = "Flake for deploying spoon machine";
+    description = "Flake for deploying the spoon machine";
 
     inputs.nixpkgs.url = "nixpkgs/nixos-24.05";
 
