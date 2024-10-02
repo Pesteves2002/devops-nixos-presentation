@@ -168,7 +168,7 @@
 - flake.lock
 ]
 #notes(
-  speaker: "Tomás", "description, inputs (dependencies), and outputs (what is done), flake lock explain git version  and narHash (integrity)",
+  speaker: "Tomás", "description, inputs (dependencies)" , "and outputs (what is done)" , "evaluates flake lock explain git version  and narHash (integrity)",
 )
 ]
 
