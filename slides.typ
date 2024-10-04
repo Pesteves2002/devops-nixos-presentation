@@ -58,11 +58,12 @@
   title: "Overview",
 )[
   - Introduction
-    - What is Nix/NixOS? Why Nix/NixOS?
+    - What is Nix/NixOS?
     - Limitations of NixOS
   - Nix Flakes
     - Definition
     - Usage
+    - Pros and Cons
   - Conclusion
 
   #notes(
@@ -100,7 +101,29 @@
   )
 ]
 
-#slide(title: "Is NixOS really reproducible?")[]
+#slide(
+  title: "Is NixOS really reproducible?",
+)[
+  #side-by-side[
+    #align(center, image("assets/computer.svg", height: 40%))
+
+    - Created in 2023
+      - *NixOS* 23.05
+      - *Python* 3.8
+  ][
+    #grid(
+      columns: (1fr, 4fr, 1fr), gutter: 1em, align: center + horizon, $<--$, image("assets/config.svg", height: 40%), $-->$,
+    )
+    #set align(center)
+    config.nix
+  ][
+    #align(center, image("assets/disaster.svg", height: 40%))
+
+    - Created in 2024
+      - *NixOS* 24.05
+      - *Python* 3.9
+  ]
+]
 
 #new-section-slide("Nix Flakes")
 
