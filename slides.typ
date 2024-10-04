@@ -130,22 +130,12 @@
 #slide(
   title: "What are Nix Flakes?",
 )[
-  #side-by-side[
-    - Experimental feature of the *Nix* package manager
-    - Provides a way to *pin* the version of dependencies
-  ][
-    #align(center, image("assets/dependency-hell.jpg", height: 70%))
-  ]
-
-  #notes(
-    speaker: "Tomás", "pin versions of the dependecies", "escape dependency hell",
-  )
-]
-
-#slide(
-  title: "Structure of a Flake",
+#side-by-side(
+  columns: (1fr, 1.25fr),
 )[
-#side-by-side[
+  - Experimental feature of the *Nix* package manager
+  - Provides a way to *pin* the version of dependencies
+][
 #text(
   11pt,
 )[
@@ -159,17 +149,33 @@
 
   outputs = { self, nixpkgs }: {
 
-    packages.x86_64-linux.hello = nixpkgs.legacyPackages.x86_64-linux.hello;
-    packages.x86_64-linux.default = self.packages.x86_64-linux.hello;
+  packages.x86_64-linux.hello = nixpkgs.legacyPackages.x86_64-linux.hello;
+  packages.x86_64-linux.default = self.packages.x86_64-linux.hello;
 
-    overlays.default = final: prev: { ... };
+  overlays.default = final: prev: { ... };
 
-    formatter.x86_64-linux = ...;
+  formatter.x86_64-linux = ...;
+
   };
 }
 ```
 ]
 - flake.nix
+]
+
+#notes(
+  speaker: "Tomás", "pin versions of the dependecies", "escape dependency hell",
+)
+]
+
+#slide(
+  title: "Flake.lock",
+)[
+#side-by-side(
+  columns: (1fr, 1.5fr),
+)[
+- Works in the same way as a `package-lock.json` or `cargo.lock` file.
+- Automatically generated when `flake.nix` is evaluated.
 ][
 #text(
   12pt,
@@ -202,17 +208,16 @@
 ]
 
 #slide(
-  title: "Build and Run Programs",
+  title: "Create Your Own Packages",
 )[
-#side-by-side(
-  columns: (1fr, 1.5fr),
-)[
-- Run #cmd(`nix build .#<name>`)
-- Run #cmd(`nix run .#<name>`)
+#side-by-side(columns: (1fr, 1.5fr))[
+- Use your own custom packages everywhere
+
+- Build and Run the _derivation_:
+  - #cmd(`nix build .#<name>`)
+  - #cmd(`nix run .#<name>`)
 ][
-#text(
-  12pt,
-)[
+#text(12pt)[
 ```nix
 {
   description = "A flake for building Hello World";
@@ -227,7 +232,8 @@
         name = "hello";
         src = self;
         buildPhase = "gcc -o hello ./hello.c";
-        installPhase = "mkdir -p $out/bin; install -t $out/bin hello"; };
+        installPhase = "mkdir -p $out/bin; install -t $out/bin hello";
+    };
   };
 }
 ```
@@ -235,6 +241,44 @@
 ]
 #notes(
   speaker: "Tomás", "build (derivation) and run programs with flake, in this case hello, is compiled and ran in result/bin/hello",
+)
+]
+
+#slide(
+  title: "Declare Your System",
+)[
+#side-by-side(columns: (1fr, 1.25fr))[
+- Use your NixOS config everywhere
+
+- Update your config:
+  - #cmd(`nixos-rebuild switch --flake .#hostname`)
+][
+#set text(12pt)
+```nix
+    {
+      description = "Flake for deploying the spoon machine";
+
+      inputs.nixpkgs.url = "nixpkgs/nixos-24.05";
+
+      outputs = { self, nixpkgs }: {
+        nixosConfigurations.spoon = nixpkgs.lib.nixosSystem {
+          modules = [
+            ./spoon.nix
+          ];
+        };
+
+        nixosConfigurations.lamp = nixpkgs.lib.nixosSystem {
+          modules = [
+            ./lamp.nix
+          ];
+        };
+      };
+    }
+    ```
+]
+
+#notes(
+  speaker: "Tomás", "deploy the configuration with nixos-rebuild switch --flake .#hostname",
 )
 ]
 
@@ -269,36 +313,6 @@
 ]
 #notes(
   speaker: "Tomás", "create a development shell with the tools needed for the presentation, talk about python versions",
-)
-]
-
-#slide(
-  title: "Declare NixOS config",
-)[
-#side-by-side(columns: (1fr, 1.25fr))[
-- Run #cmd(`nixos-rebuild switch --flake .#hostname`)
-][
-#set text(12pt)
-```nix
-  {
-    description = "Flake for deploying the spoon machine";
-
-    inputs.nixpkgs.url = "nixpkgs/nixos-24.05";
-
-    outputs = { self, nixpkgs }: {
-      nixosConfigurations.spoon = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          ./configuration.nix
-        ];
-      };
-    };
-  }
-  ```
-]
-
-#notes(
-  speaker: "Tomás", "deploy the configuration with nixos-rebuild switch --flake .#hostname",
 )
 ]
 
@@ -351,7 +365,7 @@
 ]
 
 #big-picture-slide()[
-  With Flakes, Your Configuration will be Reproducible *Forever*
+  With Flakes Your Configuration will be Reproducible *Forever*
 ]
 
 #cover
