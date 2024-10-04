@@ -2,7 +2,7 @@
 #import themes.clean: *
 
 #set document(
-  title: [DevOps Presentation: NixOS: Reproducibility with Flakes and Secrets], author: ("Tomás Esteves", "Wenqi Cao"), keywords: ("nixos", "presentation", "devops"), date: datetime(year: 2024, month: 10, day: 2, hour: 13, minute: 00, second: 00),
+  title: [DevOps Presentation: NixOS: Reproducibility with Flakes], author: ("Tomás Esteves", "Wenqi Cao"), keywords: ("nixos", "presentation", "devops"), date: datetime(year: 2024, month: 10, day: 10, hour: 13, minute: 00, second: 00),
 )
 
 // compile .pdfpc wth `polylux2pdfpc {fname}.typ`
@@ -13,7 +13,7 @@
 
 #let kthblue = rgb("#000060")
 #show: clean-theme.with(
-  short-title: [*NixOS: Reproducibility with Flakes and Secrets*], color: kthblue, logo: image("common/KTH_logo_RGB_bla.svg"),
+  short-title: [*NixOS: Reproducibility with Flakes*], color: kthblue, logo: image("common/KTH_logo_RGB_bla.svg"),
 )
 
 #pdfpc.config(duration-minutes: 7)
@@ -37,14 +37,14 @@
 }
 
 #let cover = title-slide(
-  title: text(25pt)[NixOS: Reproducibility with Flakes and Secrets], subtitle: [
+  title: text(25pt)[NixOS: Reproducibility with Flakes ], subtitle: [
     DD2482 Automated Software Testing and DevOps
 
     *Presentation*
 
     #smallcaps[KTH Royal Institute of Technology]
 
-    Wednesday, 2#super[nd] of October, 2024
+    Thursday, 10#super[th] of October, 2024
 
     #notes(speaker: "Tomás", "introduce topic", "introduce presenters")
   ], authors: (
@@ -54,16 +54,20 @@
 
 #cover
 
-#slide(title: "Overview")[
-  - Introduction to Nix/NixOS
-    - What is Nix/NixOS?
-    - Why Nix/NixOS?
-  - A Path to Reproducibility
-    - Nix Flakes (Dependency Management)
-    - Agenix (Secret Management)
+#slide(
+  title: "Overview",
+)[
+  - Introduction
+    - What is Nix/NixOS? Why Nix/NixOS?
+    - Limitations of NixOS
+  - Nix Flakes
+    - Definition
+    - Usage
   - Conclusion
 
-  #notes(speaker: "Tomás", "Introduction to Nix/Nixos", "How can We improve reproducibility?", "Conclusion")
+  #notes(
+    speaker: "Tomás", "Introduction to Nix/Nixos", "How can We improve reproducibility?", "Conclusion",
+  )
 ]
 
 #new-section-slide("Introduction")
@@ -92,17 +96,17 @@
   )
 
   #notes(
-    speaker: "Tomás", "Reproducible: works on my machine, works on every machine", "Declarative: infrastructure as code, allows you to copy code from stackoverflow and it will work", "Reliable: if something goes bad, you can always rollback and avoid being fired", "but why is there an asterisk? well because that is not always true", "But NixOS does not provide dependecy pinning and secure management of secrets"
+    speaker: "Tomás", "Reproducible: works on my machine, works on every machine", "Declarative: infrastructure as code, allows you to copy code from stackoverflow and it will work", "Reliable: if something goes bad, you can always rollback and avoid being fired", "but why is there an asterisk? well because that is not always true", "But NixOS does not provide dependecy pinning and secure management of secrets",
   )
 ]
 
-#new-section-slide("A Path to Reproducibility")
+#slide(title: "Is NixOS really reproducible?")[]
 
-#big-picture-slide()[
-  Nix Flakes
-]
+#new-section-slide("Nix Flakes")
 
-#slide(title: "What are Nix Flakes?")[
+#slide(
+  title: "What are Nix Flakes?",
+)[
   #side-by-side[
     - Experimental feature of the *Nix* package manager
     - Provides a way to *pin* the version of dependencies
@@ -110,7 +114,9 @@
     #align(center, image("assets/dependency-hell.jpg", height: 70%))
   ]
 
-  #notes(speaker: "Tomás", "pin versions of the dependecies", "escape dependency hell")
+  #notes(
+    speaker: "Tomás", "pin versions of the dependecies", "escape dependency hell",
+  )
 ]
 
 #slide(
@@ -168,18 +174,22 @@
 - flake.lock
 ]
 #notes(
-  speaker: "Tomás", "description, inputs (dependencies)" , "and outputs (what is done)" , "evaluates flake lock explain git version  and narHash (integrity)",
+  speaker: "Tomás", "description, inputs (dependencies)", "and outputs (what is done)", "evaluates flake lock explain git version  and narHash (integrity)",
 )
 ]
 
 #slide(
   title: "Build and Run Programs",
 )[
-#side-by-side(columns: (1fr, 1.5fr))[
+#side-by-side(
+  columns: (1fr, 1.5fr),
+)[
 - Run #cmd(`nix build .#<name>`)
 - Run #cmd(`nix run .#<name>`)
 ][
-#text(12pt)[
+#text(
+  12pt,
+)[
 ```nix
 {
   description = "A flake for building Hello World";
@@ -194,8 +204,7 @@
         name = "hello";
         src = self;
         buildPhase = "gcc -o hello ./hello.c";
-        installPhase = "mkdir -p $out/bin; install -t $out/bin hello";
-      };
+        installPhase = "mkdir -p $out/bin; install -t $out/bin hello"; };
   };
 }
 ```
@@ -270,124 +279,27 @@
 )
 ]
 
-#big-picture-slide()[
-  Agenix
-]
-
-#slide(title: "Why use Agenix?")[
+#slide(title: "Pros and Cons of Flakes")[
   #side-by-side[
-    - The Nix store is readable by all processes and users
-    - Leak secrets in public repositories
+    Pros
+
+    - Truly reproducible
+    - Rollback feature
+    - Escape Dependency Conflicts
   ][
-    #align(center, image("assets/lock_broken.png", height: 70%))
+    Cons
+
+    - Need to update imperatively
+    - Experimental
+      - Prone to breaking changes
+      - Limited documentation
   ]
-  #notes(
-    speaker: "Wenqi", "security risk, have clear text secrets; big security issue; solve, encrypting the secrets",
-  )
-]
-
-#slide(title: "What is Agenix?")[
-  #side-by-side(columns: (1fr, 1.5fr))[
-    - Tool that manages secrets in a Nix configuration
-    - Encrypts using ssh keys
-  ][
-    #align(center, image("assets/lock.svg", height: 70%))
-  ]
-  #notes(
-    speaker: "Wenqi", "In order to manage, Agenix; public key & private key",
-  )
-]
-
-#slide(
-  title: "How does it work?",
-)[
-  #side-by-side[
-    - Public Key Cryptography
-    - Only the owner of the private key can decrypt the secret
-  ][
-    #align(center, image("assets/Asymmetric_encryption_colored.png", height: 70%))
-  ]
-  #notes(
-  speaker: "Wenqi", "public key, shared with anyone; 'age', to encrypt/decrypt secrets",
-  )
-]
-
-#slide(
-  title: "Add a Secret",
-)[
-#side-by-side(
-  columns: (1fr, 1.5fr),
-)[
-- Add which systems can access the secret
-- Run #cmd(`agenix -e <secret>.age`)
-][
-#set text(14pt)
-```nix
-let
-  system1 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL0idNvgGiucWgup/mP78zyC23uFjYq0evcWdjGQUaBH";
-  system2 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPJDyIr/FSz1cJdcoW69R+NrWzwGK/+3gJpqD1t8L2zE";
-
-  systems = [ system1 system2 ];
-in
-{
-  "secret1.age".publicKeys = [ system1 ];
-  "secret2.age".publicKeys = systems;
-}
-
-```
-]
-#notes(
-  speaker: "Wenqi", "define filename & which public keys are used; write the secret (password, API key)",
-)
-]
-
-#slide(title: "Use a Secret")[
-#side-by-side(columns: (1fr, 1.5fr))[
-  - Set the secret in the Nix configuration
-  - Reference the secret in the service
-][
-#set text(15pt)
-```nix
-age.secrets.nextcloud = {
-  file = ./secrets/secret1.age;
-  owner = "nextcloud";
-  group = "nextcloud";
-};
-services.nextcloud = {
-  enable = true;
-  package = pkgs.nextcloud29;
-  hostName = "localhost";
-  config.adminpassFile = config.age.secrets.nextcloud.path;
-};
-```
-]
-#notes(
-  speaker: "Wenqi", "first, tell where is it; reference it in configuration; if proper, decrypted & used securely, e.g., only by 'nextcloud' service",
-)
-]
-
-#slide(
-  title: "Reflection: Scaling and Flexibility in Secrets Management",
-)[
-  #side-by-side[
-    - Scales effectively in large NixOS deployments
-    - Less flexible with encryption backends (vs. sops-nix) 
-    - Lightweight & simple, nix-native, and in version-control.
-  ][
-    #align(center, image("assets/Secrets_management_icon.png", height: 70%))
-  ]
-  #notes(
-    speaker: "Wenqi", "Finally, performs well, scaling effectively; offers less flexibility because; Nonetheless, it's still a ...",
-  )
 ]
 
 #new-section-slide("Conclusion")
 
-#big-picture-slide(
-  )[
-  With Flakes and Agenix, Your Configuration will be Reproducible and Secure
-  *Forever*
-  #notes(speaker: "Diogo", "Declare once, deploy forever, wherever")
+#big-picture-slide()[
+  With Flakes, Your Configuration will be Reproducible *Forever*
 ]
 
 #cover
