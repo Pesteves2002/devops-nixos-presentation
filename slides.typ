@@ -321,6 +321,35 @@
 
 #new-section-slide("Conclusion")
 
+#slide(
+  title: "True Reproducibility with Flakes",
+)[
+  #side-by-side[
+    #align(center, image("assets/lion.svg", height: 40%))
+
+    - Created in 2023
+      - *NixOS* 23.05
+      - *Python* 3.8
+  ][
+    #grid(
+      columns: (1fr, 4fr, 1fr), gutter: 1em, align: center + horizon, $<--$, image("assets/config.svg", height: 20%), $-->$,
+    )
+    #set align(center)
+    flake.nix
+
+    #align(center, image("assets/lock.svg", height: 20%))
+
+    #set align(center)
+    flake.lock
+  ][
+    #align(center, image("assets/monkey.svg", height: 40%))
+
+    - Created in 2024
+      - *NixOS* 23.05
+      - *Python* 3.8
+  ]
+]
+
 #big-picture-slide()[
   With Flakes, Your Configuration will be Reproducible *Forever*
 ]
