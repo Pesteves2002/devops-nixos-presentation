@@ -149,12 +149,12 @@
 
   outputs = { self, nixpkgs }: {
 
-  packages.x86_64-linux.hello = nixpkgs.legacyPackages.x86_64-linux.hello;
-  packages.x86_64-linux.default = self.packages.x86_64-linux.hello;
+    packages.x86_64-linux.hello = nixpkgs.legacyPackages.x86_64-linux.hello;
+    packages.x86_64-linux.default = self.packages.x86_64-linux.hello;
 
-  overlays.default = final: prev: { ... };
+    overlays.default = final: prev: { ... };
 
-  formatter.x86_64-linux = ...;
+    formatter.x86_64-linux = ...;
 
   };
 }
@@ -282,13 +282,32 @@
 )
 ]
 
+#slide(title: "Dependency Conflicts")[
+  #side-by-side[
+    - Multiple projects require different versions of the same package
+      - *Project A*: *Python* 3.8
+      - *Project B*: *Python* 3.12
+
+    - Flakes solves this problem
+  ][
+    #align(center, image("assets/dependency-hell.jpg", height: 70%))
+  ]
+]
+
 #slide(
   title: "Create Dev Shells",
 )[
-#side-by-side(columns: (1fr, 1.5fr))[
-- Run #cmd(`nix develop`)
+#side-by-side(
+  columns: (1fr, 1.5fr),
+)[
+- Creates an ephemeral development shell
+  - Packages needed
+  - Environment Variables
+
+- Create shell
+  - #cmd(`nix develop`)
 ][
-#set text(12pt)
+#set text(11pt)
 ```nix
 {
   description = "Flake for the dev ops presentation";
@@ -304,7 +323,9 @@
     in
     {
       devShell = pkgs.mkShell {
-        buildInputs = with pkgs; [ typst typstfmt pdfpc polylux2pdfpc ];
+        buildInputs = with pkgs; [ typst typstfmt pdfpc polylux2pdfpc python310 ];
+
+        KEY = "ABCD";
       };
     }
   );
@@ -320,16 +341,17 @@
   #side-by-side[
     Pros
 
-    - Truly reproducible
-    - Rollback feature
+    - Truly Reproducible
+    - Rollback Feature
     - Escape Dependency Conflicts
   ][
     Cons
 
-    - Need to update imperatively
+    - Need to Update Imperatively
     - Experimental
-      - Prone to breaking changes
-      - Limited documentation
+      - Prone to Breaking Changes
+      - Limited Documentation
+    - No Lazy Evaluation
   ]
 ]
 
