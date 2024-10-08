@@ -102,7 +102,7 @@
 ]
 
 #slide(
-  title: "Is NixOS really reproducible?",
+  title: "Is NixOS really Reproducible?",
 )[
   #side-by-side[
     #align(center, image("assets/computer.svg", height: 40%))
@@ -301,7 +301,7 @@
   columns: (1fr, 1.5fr),
 )[
 - Creates an ephemeral development shell
-  - Packages needed
+  - Packages Needed
   - Environment Variables
 
 - Create shell
