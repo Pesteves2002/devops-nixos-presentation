@@ -1,4 +1,4 @@
-# Slide 0
+# Slide 1
 
 Hello Everyone, I'm <person 1> and this is <person 2>.
 Today we are going to deep dive into some features that improve the reproducibility of your NixOS config.
@@ -7,7 +7,11 @@ We will talk about Nix Flakes and how to manage secrets securely.
 
 # Slide 2
 
-But first let's make a small introduction.
+First we are gonna make an introduction to NixOS,
+then we will talk about the nix flakes, how to use them and pros and cons
+And then we will conclude.
+
+# Slide 4
 
 What is Nix/NixOS?
 
@@ -22,7 +26,7 @@ it follows a declarative approach to system configuration.
 Finally Nixpkgs, it's the Nix package repository. It's the largest repository,
 being bigger than the Arch User Repository (AUR).
 
-# Slide 3
+# Slide 5
 
 So Why use Nix/NixOS?
 
@@ -34,12 +38,11 @@ Because of these 3 features:
 
 But why is reproducibility with an asterisk?
 
-Well, because NixOS by itself does not provide 2 important features:
+# Slide 6
 
-- Pin dependencies: To ensure that the version of the packages you are using is the same.
-- A way to manage secrets securely.
+Explain that the same config may create two completely different systems, which may break or not.
 
-# Slide 5 - 7
+# Slide 8
 
 So first we will talk about Nix Flakes.
 
@@ -47,16 +50,8 @@ Nix Flakes is an experimental feature that was introduced in Nix 2.4.
 
 It allows you to pin the version of dependencies.
 
-This is one step closer to reproducibility.
-
-Why do we need Nix Flakes?
-
 Because a config made today may not work in the future because dependencies may change
 and it'll be hard to reproduce the same environment.
-
-# Slide 8
-
-So what is a Flake?
 
 Flake is .nix file that contains some top level attributes.
 
@@ -64,6 +59,8 @@ Flake is .nix file that contains some top level attributes.
 - Inputs: A list of dependencies.
 - Outputs: Receives the inputs and returns an attributes set.
 - NixConfig: A set of options that are passed to the Nix evaluator. (Normally not used)
+
+# Slide 9
 
 After evaluating the flake, a flake.lock is generated.
 
@@ -73,7 +70,7 @@ It contains all the information necessary to always get output the same result.
 
 Look and explain the rev and narHash.
 
-# Slide 9
+# Slide 10
 
 So How do I Use a Flake?
 
@@ -85,19 +82,6 @@ There are multiple ways to use it.
 In this case we create the `hello` derivation that is a c program that is compiled with gcc.
 It creates a `directory` where the binary is stored and can be executed.
 
-# Slide 10
-
-Flakes allows us to create developer shells.
-
-Instead of installing packages that might be used only once, we can create a shell that has all the packages we need.
-
-This packages are only usable inside this new shell, and not globally.
-
-This is useful when multiple project have conflicting dependencies.
-Such as project that needs Python 3.6 and another that needs Python 3.8.
-
-In order to get this shell, I just need to run `nix develop`.
-
 # Slide 11
 
 So the most exciting feature is declaring your whole OS configuration as a flake.
@@ -106,74 +90,48 @@ This makes our configuration reproducible today but also in 100 years.
 
 Here I can define multiple machines, such as my desktop and my laptop.
 
+# Slide 12
+
+Flakes also allows to manage dependency conflicts.
+
+It may have already happened to you that some projects need a specific version of python and another project needs another version.
+
+Flakes solves this problem through the creation of dev shells.
+
 # Slide 13
 
-So this is flakes, but what about secrets?
+This flake will create a temporary shell where all the packages provided will be available to use. (in this case python310).
+After exiting the shell, these packages will be "removed", they will not be available to use anymore.
+It also allows to set environment variables.
 
-But why do we need `agenix`?
-
-All files in the Nix store are readable by any system user, so it is a security risk to have clear text secrets.
-
-It's very common to have secrets in our configuration and leaking them is a big security issue.
-
-Agenix solves this problem by encrypting the secrets.
+This allows for an easier way to manage dependencies.
 
 # Slide 14
 
-In order to manage secrets securely, we can use `agenix`.
+Pros of Flakes:
 
-It encrypts secrets with a public key and decrypts them with a private key.
+Truly reproducible configurations, even dependencies (in 100 years)
+Rollback to a previous version of the configuration
+Escape Dependency Hell
 
-# Slide 15
 
-How does it work?
+Cons of Flakes:
 
-`agenix` uses Public Key Cryptography.
+Updating the inputs is done imperatively
+It is still experimental (may be broken in the future and has limited documentation)
 
-In public key cryptography, there are two keys: a public key and a private key.
-
-The public key can be shared with anyone, but the private key must be kept secret.
-
-In this case, the secrets are encrypted with the public key and only the private key can decrypt them.
-
-So only the *hosts* that have the private key can decrypt the secrets.
-
-`age` is used to encrypt/decrypt the secrets.
+No Lazy Evaluation (everything is downloaded even if not used)
 
 # Slide 16
 
-So how do I use `agenix`?
+So with flakes you can declare you configuration in a reproducible way.
 
-You first start by telling which systems public keys will be used.
+# Slide 17 
 
-Then you define the file name and which public keys are used.
+This leads to our take away message:
 
-Then you run `agenix -e <secret>.age`, here you will write the secret (password, API key).
-
-It will then be encrypted.
-
-# Slide 17
-
-In order to use the secret, you first need to tell where is it.
-
-And then reference it in your configuration.
-
-If properly configured, the secret will be decrypted and used securely only by the `nextcloud` service.
+With Flakes Tour COnfiguration will be reproducible Forever.
 
 # Slide 18
-
-Finally, let's take a moment to reflect on the production use.
-
-Agenix performs well in large NixOS deployments, scaling effectively to meet demands.
-
-However, it offers less flexibility with encryption because it doesn't support PGP keys or cloud-based KMS (Key Management Services) like sops-nix.
-
-Nonetheless, it's a lightweight solution that's ideal for simpler, focused applications.
-
-Agenix allows users to securely include encrypted secrets, (such as ages,) in version control systems and push to public Git repositories without risking the exposure of confidential information.
-
-# Slide 20
-
-With Flakes and Agenix, Your Configuration will be Reproducible and Secure *Forever*
 
 Thank your for listening & special thanks to the feedback from Diogo & Rafael.
