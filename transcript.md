@@ -6,9 +6,9 @@ Today, we will explore a key feature that significantly enhance the reproducibil
 
 # Slide 2
 
-We will start by introducing NixOS. 
+We will start by introducing NixOS.
 
-Next, we'll dive into Nix Flakes, covering their practical usage, and the associated pros and cons. 
+Next, we'll dive into Nix Flakes, covering their practical usage, and the associated pros and cons.
 
 Finally, we will wrap up with our conclusion and take-home message.
 
@@ -32,7 +32,7 @@ So, why choose Nix or NixOS?
 
 First, it's reproducible. Nix ensures that whatever works on your machine can be replicated on any other machine.
 
-Second, it's declarative. You simply declare your system configs, instead of manually configuring everything. 
+Second, it's declarative. You simply declare your system configs, instead of manually configuring everything.
 
 [like, you just need to write Nix code saying I want vim & git to be installed on my system.]
 
@@ -50,7 +50,7 @@ If you’re not pinning specific versions of dependencies, your Nix configuratio
 
 Even with Nix's declarative configuration, the final outcome of the system might depend on hardware, environmental variables. This could mean that your configuration works perfectly on one machine but behaves differently on another.
 
-E.g., a certain configuration might work on an x86_64 system but fail on an ARM-based machine unless explicitly handled in the configuration.
+E.g., a certain configuration might work with a specific set of dependencies today, but another configuration made in the future may have different dependencies that may break the system or not.
 
 Luckily, Nix solves it with Nix Flakes.
 
@@ -143,7 +143,7 @@ No Lazy Evaluation (everything is downloaded even if not used)
 
 So with flakes you can declare you configuration in a reproducible way.
 
-# Slide 17 
+# Slide 17
 
 This leads to our take away message:
 
