@@ -339,7 +339,7 @@
 )
 ]
 
-#slide(title: "Pros and Cons of Flakes")[
+#slide(title: "Reflection - Pros and Cons of Flakes")[
   #side-by-side[
     Pros
 

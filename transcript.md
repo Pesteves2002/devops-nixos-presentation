@@ -1,64 +1,77 @@
 # Slide 1
 
-Hello Everyone, I'm <person 1> and this is <person 2>.
-Today we are going to deep dive into some features that improve the reproducibility of your NixOS config.
+Hi Everyone, I'm <person 1> and this is <person 2>.
 
-We will talk about Nix Flakes and how to manage secrets securely.
+Today, we will explore a key feature that significantly enhance the reproducibility of your NixOS configurations
 
 # Slide 2
 
-First we are gonna make an introduction to NixOS,
-then we will talk about the nix flakes, how to use them and pros and cons
-And then we will conclude.
+We will start by introducing NixOS.
+
+Next, we'll dive into Nix Flakes, covering their practical usage, and the associated pros and cons.
+
+Finally, we will wrap up with our conclusion and take-home message.
 
 # Slide 4
 
-What is Nix/NixOS?
+Let’s begin with an overview of Nix
 
-Nix can mean two things:
+- As a functional language, it allows for the declarative configuration.
+- As a package manager, it's similar to yum, or apt in Debian, but it's declarative and allows to keep multi ver. of packages.
 
-- The functional language that NixOS is built on.
-- The package manager that NixOS uses.
+[We can describe the desired state of our systems without detailing how to achieve that state, and the package manager will handle the implementation details to reach that state.]
 
-After that we have NixOS, it's a Linux distribution that in contrast to other distributions,
-it follows a declarative approach to system configuration.
-
-Finally Nixpkgs, it's the Nix package repository. It's the largest repository,
-being bigger than the Arch User Repository (AUR).
+NixOS, on the other hand, is a Linux distribution built entirely on top of Nix.
+It inherits the benefits if nix and follows a declarative approach to system configuration.
 
 # Slide 5
 
-So Why use Nix/NixOS?
+So, why choose Nix or NixOS?
 
-Because of these 3 features:
+[Mainly because of these 3 features:]
 
-- Reproducibility: You can easily reproduce your system configuration on another machine.
-- Declarative: You can describe your system configuration in a declarative way.
-- Reliable: You can rollback to a previous system configuration if something goes wrong.
+First, it's reproducible. Nix ensures that whatever works on your machine can be replicated on any other machine.
 
-But why is reproducibility with an asterisk?
+Second, it's declarative. You simply declare your system configs, instead of manually configuring everything.
+
+[like, you just need to write Nix code saying I want vim & git to be installed on my system.]
+
+Nix will handle the rest, (the dependenices,) making it much easier to manage and maintain over time.
+
+Finally, it's reliable. With Nix, you can easily roll back to a previous state if something goes wrong.
+
+But is it really reproducible with nix itself?
 
 # Slide 6
 
-Explain that the same config may create two completely different systems, which may break or not.
+[Explain that the same config may create two completely different systems, which may break.]
+
+If you’re not pinning specific versions of dependencies, your Nix configuration might pull in different versions of the packages on different machines or at different times.
+
+Even with Nix's declarative configuration, the final outcome of the system might depend on hardware, environmental variables. This could mean that your configuration works perfectly on one machine but behaves differently on another.
+
+E.g., a certain configuration might work with a specific set of dependencies today, but another configuration made in the future may have different dependencies that may break the system or not.
+
+Luckily, Nix solves it with Nix Flakes.
 
 # Slide 8
 
-So first we will talk about Nix Flakes.
+Nix Flakes is an experimental feature that was introduced in Nix 2.4, which brings a more standardized and declarative approach to managing dependencies & dev environments.
 
-Nix Flakes is an experimental feature that was introduced in Nix 2.4.
+Flake is .nix file that contains the top level attributes.
 
-It allows you to pin the version of dependencies.
+When NixOS evaluates flake.nix, it will create a flake.lock file, pinning the version of all dependencies that a project uses.
 
-Because a config made today may not work in the future because dependencies may change
-and it'll be hard to reproduce the same environment.
+Why is it important?
 
-Flake is .nix file that contains some top level attributes.
+Because a config made today may not work in the future.
+Because dependencies may change and it'll be hard to reproduce the same environment.
 
+[Flake is .nix file that contains some top level attributes.
 - Description of the flake.
 - Inputs: A list of dependencies.
 - Outputs: Receives the inputs and returns an attributes set.
-- NixConfig: A set of options that are passed to the Nix evaluator. (Normally not used)
+- NixConfig: A set of options that are passed to the Nix evaluator. (Normally not used)]
 
 # Slide 9
 
@@ -69,6 +82,8 @@ The flake.lock works in the same way as a package-lock.json or a cargo.lock file
 It contains all the information necessary to always get output the same result.
 
 Look and explain the rev and narHash.
+
+[This is how it pin the dependencies.]
 
 # Slide 10
 
@@ -126,7 +141,7 @@ No Lazy Evaluation (everything is downloaded even if not used)
 
 So with flakes you can declare you configuration in a reproducible way.
 
-# Slide 17 
+# Slide 17
 
 This leads to our take away message:
 
