@@ -135,8 +135,8 @@
 #side-by-side(
   columns: (1fr, 1.25fr),
 )[
-  - Experimental feature that enhances Nix package management
-  - *Pin* versions of dependencies for consistency
+  - Experimental feature that enhances *Nix* package management
+  - Provides a way to *pin* the version of dependencies
 ][
 #text(
   11pt,
