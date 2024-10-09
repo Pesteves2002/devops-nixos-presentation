@@ -77,10 +77,12 @@
   title: "What is Nix/NixOS?",
 )[
   #side-by-side[
-    - *Nix*, the (functional) language
-    - *Nix*, the package manager
-    - *NixOS*, the operating system
-    - *Nixpkgs*, the package repository
+    - *Nix*
+      - The Functional Language
+      - The Package Manager #footnote[*Nixpkgs* is the package repository of Nix, containing thousands of software
+          packages.]
+    - *NixOS*
+      - The Operating System, Linux distribution built on *Nix*
   ][
     #align(center, image("assets/nix-snowflake-colours.svg", height: 70%))
   ]
@@ -133,7 +135,7 @@
 #side-by-side(
   columns: (1fr, 1.25fr),
 )[
-  - Experimental feature of the *Nix* package manager
+  - Experimental feature that enhances *Nix* package management
   - Provides a way to *pin* the version of dependencies
 ][
 #text(
