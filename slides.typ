@@ -125,6 +125,8 @@
       - *NixOS* 24.05
       - *Python* 3.9
   ]
+
+  #notes(speaker: "Tomás", "same config, different results")
 ]
 
 #new-section-slide("Nix Flakes")
@@ -166,7 +168,7 @@
 ]
 
 #notes(
-  speaker: "Tomás", "pin versions of the dependecies", "escape dependency hell",
+  speaker: "Tomás", "pin versions of the dependecies", "description, inputs (dependencies)", "and outputs (what is done)",
 )
 ]
 
@@ -205,7 +207,7 @@
 - flake.lock
 ]
 #notes(
-  speaker: "Tomás", "description, inputs (dependencies)", "and outputs (what is done)", "evaluates flake lock explain git version  and narHash (integrity)",
+  speaker: "Tomás", "evaluates flake lock explain git version  and narHash (integrity)",
 )
 ]
 
@@ -258,7 +260,7 @@
 #set text(12pt)
 ```nix
     {
-      description = "Flake for deploying the spoon machine";
+      description = "Flake for deploying the machines";
 
       inputs.nixpkgs.url = "nixpkgs/nixos-24.05";
 
@@ -284,7 +286,9 @@
 )
 ]
 
-#slide(title: "Dependency Conflicts")[
+#slide(
+  title: "Dependency Conflicts",
+)[
   #side-by-side[
     - Multiple projects require different versions of the same package
       - *Project A*: *Python* 3.8
@@ -294,6 +298,10 @@
   ][
     #align(center, image("assets/dependency-hell.jpg", height: 70%))
   ]
+
+  #notes(
+    speaker: "Tomás", "dependency conflicts are a common problem in software development", "flakes solve this problem by creting dev shells",
+  )
 ]
 
 #slide(

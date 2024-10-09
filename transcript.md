@@ -48,7 +48,7 @@ But is it really reproducible with nix itself?
 
 If you’re not pinning specific versions of dependencies, your Nix configuration might pull in different versions of the packages on different machines or at different times.
 
-Even with Nix's declarative configuration, the final outcome of the system might depend on hardware, environmental variables. This could mean that your configuration works perfectly on one machine but behaves differently on another.
+Even with Nix's declarative configuration, the final outcome of the system. This could mean that your configuration works perfectly on one machine but behaves differently on another.
 
 E.g., a certain configuration might work with a specific set of dependencies today, but another configuration made in the future may have different dependencies that may break the system or not.
 
@@ -139,7 +139,7 @@ No Lazy Evaluation (everything is downloaded even if not used)
 
 # Slide 16
 
-So with flakes you can declare you configuration in a reproducible way.
+So with flakes you can declare you configuration in a reproducible way, that will work in 100 years.
 
 # Slide 17
 
