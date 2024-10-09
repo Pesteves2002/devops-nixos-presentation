@@ -135,9 +135,8 @@
 #side-by-side(
   columns: (1fr, 1.25fr),
 )[
-  - Exp. feature that enhances Nix package management
+  - Experimental feature that enhances Nix package management
   - *Pin* versions of dependencies for consistency
-  - The "processor" of Nix code
 ][
 #text(
   11pt,

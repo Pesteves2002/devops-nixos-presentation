@@ -60,8 +60,6 @@ Nix Flakes is an experimental feature that was introduced in Nix 2.4, which brin
 
 Flake is .nix file that contains the top level attributes.
 
-It acts like "processors" of Nix code, which take Nix expressions as input and output things that Nix can use like package definitions, NixOS configurations.
-
 When NixOS evaluates flake.nix, it will create a flake.lock file, pinning the version of all dependencies that a project uses.
 
 Why is it important?
